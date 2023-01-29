@@ -1,0 +1,85 @@
+﻿@model RSWEBPROJET1.ViewModels.TeacherPrebaruvanjeViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+<form asp-controller="Teachers" asp-action="Index" method="get">
+    <p>
+        <select asp-for="TeacherRank" asp-items="Model.AcademicRanks">
+            <option value="">Choose Rank</option>
+        </select>
+        First Name: <input type="text" asp-for="SearchString" />
+        <input type="submit" value="Filter" />
+        Last Name: <input type="text" asp-for="SearchString1" />
+        <input type="submit" value="Filter" />
+    </p>
+</form>
+<p>
+    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+    {<a asp-action="Create">Create New</a>}
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Professor[0].FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Professor[0].LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Professor[0].Degree)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Professor[0].AcademicRank)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Professor[0].OfficeNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Professor[0].HireDate)
+            </th>
+           <!---- <th>
+                Html.DisplayNameFor(model => model.Professor[0].CoursesAsFirstTeacher)
+            </th>
+            <th>
+                Html.DisplayNameFor(model => model.Professor[0].CoursesAsSecondTeacher)
+            </th>-->
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Professor)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Degree)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AcademicRank)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OfficeNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HireDate)
+                </td>
+                <td>
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                    {<a asp-action="Edit" asp-route-id="@item.TeacherId">Edit</a>} |
+                    <a asp-action="Details" asp-route-id="@item.TeacherId">Details</a> |
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                    {<a asp-action="Delete" asp-route-id="@item.TeacherId">Delete</a>}
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
